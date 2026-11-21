@@ -1,6 +1,6 @@
-export type Lang = "en" | "zh";
+export type Lang = "en" | "zh" | "ar" | "es" | "ru";
 
-export type L = { en: string; zh: string };
+export type L = Record<Lang, string>;
 
 export type MenuId = "coffee" | "fried" | "pizza" | "grill" | "noodle" | "dessert" | "mixed";
 
@@ -16,6 +16,8 @@ export type ZoneKind = "glass" | "cook" | "cold" | "work" | "door" | "panel";
 
 export type Supply = "ours" | "yours";
 
+export type Tri = "yes" | "no" | "unsure";
+
 export type Draft = {
   menu: MenuId;
   platform: Platform;
@@ -26,6 +28,8 @@ export type Draft = {
   tone: Tone;
   generator: boolean;
   qty: number;
+  shore: Tri;
+  gasOk: Tri;
   name: string;
   company: string;
   country: string;
@@ -42,3 +46,27 @@ export type PlanDef = {
 };
 
 export type EquipmentItem = { name: L; supply: Supply };
+
+export const LANGS: { id: Lang; code: string; name: string; dir: "ltr" | "rtl" }[] = [
+  { id: "en", code: "EN", name: "English", dir: "ltr" },
+  { id: "zh", code: "中文", name: "中文", dir: "ltr" },
+  { id: "ar", code: "ع", name: "العربية", dir: "rtl" },
+  { id: "es", code: "ES", name: "Español", dir: "ltr" },
+  { id: "ru", code: "RU", name: "Русский", dir: "ltr" },
+];
+
+export function isLang(value: string | null | undefined): value is Lang {
+  return value === "en" || value === "zh" || value === "ar" || value === "es" || value === "ru";
+}
+
+/** Build a five-language label from English + Chinese, with optional overrides. */
+export function lx(en: string, zh: string, extra?: Partial<L>): L {
+  return {
+    en,
+    zh,
+    ar: extra?.ar ?? en,
+    es: extra?.es ?? en,
+    ru: extra?.ru ?? en,
+    ...extra,
+  };
+}

@@ -1,6 +1,7 @@
 import { heatInfo, kitFor, marketInfo, menuById, platformInfo, sales, toneInfo } from "./data";
 import type { Copy } from "./copy";
-import type { Draft, L, Lang } from "./types";
+import { lx, type Draft, type L, type Lang } from "./types";
+import { pitchNotes } from "./buyer";
 
 const PRICE = {
   base: { cart: 7000, trailer: 16500, truck: 19800 },
@@ -38,18 +39,9 @@ export function estimate(draft: Draft): Estimate {
   return { low: round(mid * PRICE.low), high: round(mid * PRICE.high), daysMin: days, daysMax: days + 8 };
 }
 
-const cartCook: L = {
-  en: "That cook line does not fit a cart. Choose a trailer or a truck body.",
-  zh: "这条出餐线放不进手推车。改成拖车或上车厢。",
-};
-const pizzaLen: L = {
-  en: "A deck-oven layout needs at least 5.2 m. Lengthen the body, or change the menu.",
-  zh: "甲板烤箱的布局至少要 5.2 米。把车加长，或换菜单。",
-};
-const noodleLen: L = {
-  en: "A noodle line needs at least 5.2 m for the pots and the pass.",
-  zh: "面档至少要 5.2 米，汤锅和出餐口才放得下。",
-};
+const cartCook: L = lx("That cook line does not fit a cart. Choose a trailer or a truck body.", "这条出餐线放不进手推车。改成拖车或上车厢。");
+const pizzaLen: L = lx("A deck-oven layout needs at least 5.2 m. Lengthen the body, or change the menu.", "甲板烤箱的布局至少要 5.2 米。把车加长，或换菜单。");
+const noodleLen: L = lx("A noodle line needs at least 5.2 m for the pots and the pass.", "面档至少要 5.2 米，汤锅和出餐口才放得下。");
 
 export function conflict(draft: Draft): L | null {
   if (draft.platform === "cart" && (draft.menu === "pizza" || draft.menu === "grill" || draft.menu === "noodle")) return cartCook;
@@ -60,53 +52,44 @@ export function conflict(draft: Draft): L | null {
 
 export function caution(draft: Draft): L | null {
   if (draft.platform === "truck") {
-    return {
-      en: "This band is the kitchen body. The chassis cab is outside it.",
-      zh: "这个预算带只含厨房厢体，不含底盘驾驶室。",
-    };
+    return lx("This band is the kitchen body. The chassis cab is outside it.", "这个预算带只含厨房厢体，不含底盘驾驶室。");
   }
   if (draft.platform === "cart" && draft.menu === "fried") {
-    return {
-      en: "A cart fits one countertop fryer, not the two-basket floor line.",
-      zh: "手推车只能放一台台面炸炉，放不下双篮落地炸炉。",
-    };
+    return lx("A cart fits one countertop fryer, not the two-basket floor line.", "手推车只能放一台台面炸炉，放不下双篮落地炸炉。");
   }
   if (draft.platform === "cart" && draft.heat !== "electric") {
-    return {
-      en: "LPG on a cart needs a caged bottle and the venue’s approval.",
-      zh: "手推车用液化气，气瓶要进笼子，场地也得允许。",
-    };
+    return lx("LPG on a cart needs a caged bottle and the venue’s approval.", "手推车用液化气，气瓶要进笼子，场地也得允许。");
   }
   return null;
 }
 
 export function waterLine(draft: Draft): L {
-  if (draft.platform === "cart") return { en: "Fresh 25 L and waste 25 L", zh: "清水 25 升，污水 25 升" };
-  if (draft.length >= 7) return { en: "Fresh 120 L and waste 120 L", zh: "清水 120 升，污水 120 升" };
-  if (draft.length >= 5.8) return { en: "Fresh 100 L and waste 100 L", zh: "清水 100 升，污水 100 升" };
-  return { en: "Fresh 80 L and waste 80 L", zh: "清水 80 升，污水 80 升" };
+  if (draft.platform === "cart") return lx("Fresh 25 L and waste 25 L", "清水 25 升，污水 25 升");
+  if (draft.length >= 7) return lx("Fresh 120 L and waste 120 L", "清水 120 升，污水 120 升");
+  if (draft.length >= 5.8) return lx("Fresh 100 L and waste 100 L", "清水 100 升，污水 100 升");
+  return lx("Fresh 80 L and waste 80 L", "清水 80 升，污水 80 升");
 }
 
 export function crewLine(draft: Draft): L {
-  if (draft.platform === "cart") return { en: "1 person", zh: "1 人" };
-  if (draft.windows === 2 || draft.length >= 7) return { en: "3 to 4 people", zh: "3 到 4 人" };
-  return { en: "2 to 3 people", zh: "2 到 3 人" };
+  if (draft.platform === "cart") return lx("1 person", "1 人");
+  if (draft.windows === 2 || draft.length >= 7) return lx("3 to 4 people", "3 到 4 人");
+  return lx("2 to 3 people", "2 到 3 人");
 }
 
 export function axleLine(draft: Draft): L | null {
   if (draft.platform !== "trailer") return null;
-  if (draft.length <= 4.5) return { en: "Single axle", zh: "单轴" };
-  return { en: "Tandem axle", zh: "双轴" };
+  if (draft.length <= 4.5) return lx("Single axle", "单轴");
+  return lx("Tandem axle", "双轴");
 }
 
 export function windowLine(draft: Draft): L {
-  if (draft.windows === 0) return { en: "No service window", zh: "无售卖窗" };
-  if (draft.windows === 2) return { en: "Two windows, opposite sides", zh: "双侧窗口" };
-  return { en: "One service window", zh: "一个售卖窗" };
+  if (draft.windows === 0) return lx("No service window", "无售卖窗");
+  if (draft.windows === 2) return lx("Two windows, opposite sides", "双侧窗口");
+  return lx("One service window", "一个售卖窗");
 }
 
 export function money(value: number, lang: Lang) {
-  return new Intl.NumberFormat(lang === "zh" ? "zh-CN" : "en-US", {
+  return new Intl.NumberFormat(lang === "zh" ? "zh-CN" : lang === "ar" ? "ar" : lang === "es" ? "es" : lang === "ru" ? "ru-RU" : "en-US", {
     style: "currency",
     currency: "USD",
     maximumFractionDigits: 0,
@@ -143,6 +126,8 @@ export function sheetText(draft: Draft, lang: Lang, text: Copy) {
     line(text.spec.windows, t(windowLine(draft))),
     line(text.spec.color, t(toneInfo[draft.tone])),
     line(text.spec.generator, draft.generator ? text.yes : text.no),
+    line(text.spec.shore, draft.shore === "yes" ? text.yes : draft.shore === "no" ? text.no : text.unsure),
+    line(text.spec.gasOk, draft.gasOk === "yes" ? text.yes : draft.gasOk === "no" ? text.no : text.unsure),
     line(text.spec.qty, String(draft.qty)),
     line(text.spec.crew, t(crewLine(draft))),
     line(text.spec.water, t(waterLine(draft))),
@@ -151,6 +136,7 @@ export function sheetText(draft: Draft, lang: Lang, text: Copy) {
 
   const ours = kitFor(draft).filter((item) => item.supply === "ours");
   const yours = kitFor(draft).filter((item) => item.supply === "yours");
+  const pitch = pitchNotes(draft);
   const band = blocked
     ? t(blocked)
     : `${money(est.low, lang)} – ${money(est.high, lang)} (${text.bandNote})`;
@@ -175,6 +161,7 @@ export function sheetText(draft: Draft, lang: Lang, text: Copy) {
     `${text.spec.band}: ${band}`,
     lead,
     warn ? t(warn) : "",
+    ...pitch.map((item) => t(item)),
     "",
     text.build.fitted,
     ...ours.map((item) => `- ${t(item.name)}`),

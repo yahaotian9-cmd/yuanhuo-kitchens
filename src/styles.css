@@ -1,22 +1,27 @@
 :root {
-  --bg: #e6dfd1;
-  --bg-2: #f3eee4;
-  --ink: #1b1914;
-  --muted: #5e584e;
-  --line: #cfc6b4;
-  --enamel: #14352b;
-  --lime: #e2f56b;
-  --copper: #8d3f16;
-  --bone: #f7f3ea;
+  --bg: #f4f2ec;
+  --bg-2: #ffffff;
+  --ink: #121816;
+  --muted: #5c645f;
+  --line: #d7d2c7;
+  --enamel: #0f2f27;
+  --lime: #dce86a;
+  --copper: #7a4a28;
+  --bone: #fbfaf6;
   --serif: "Fraunces", "Noto Serif SC", "Songti SC", "Source Han Serif SC", Georgia, serif;
-  --sans: "Source Sans 3", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --cond: "Barlow Condensed", "Source Sans 3", "PingFang SC", sans-serif;
-  --track: 0.12em;
+  --sans: "Source Sans 3", "Noto Sans Arabic", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --cond: "Barlow Condensed", "Source Sans 3", "Noto Sans Arabic", "PingFang SC", sans-serif;
+  --track: 0.14em;
   color-scheme: light;
 }
 
-html[data-lang="zh"] {
+html[data-lang="zh"],
+html[data-lang="ar"] {
   --track: 0.03em;
+}
+
+html[dir="rtl"] body {
+  font-family: "Noto Sans Arabic", var(--sans);
 }
 
 * { box-sizing: border-box; }
@@ -171,6 +176,48 @@ p { margin: 0 0 0.7rem; }
   font-family: var(--cond);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.lang-wrap { position: relative; }
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  inset-inline-end: 0;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  min-width: 160px;
+  background: var(--bone);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  z-index: 40;
+}
+
+.lang-menu button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  padding: 0.45rem 0.55rem;
+  text-align: start;
+}
+
+.lang-menu button em {
+  font-style: normal;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.92rem;
+}
+
+.lang-menu button.on,
+.lang-menu button:hover {
+  background: #e8efe4;
 }
 
 .nav-toggle { display: none; }
@@ -469,20 +516,18 @@ html[data-lang="zh"] .page-head h1 {
 }
 
 .choices button {
-  text-align: left;
-  min-height: 44px;
-  padding: 0.5rem 0.7rem;
+  text-align: start;
+  min-height: 42px;
+  padding: 0.45rem 0.85rem;
+  font-family: var(--sans);
+  font-size: 0.98rem;
 }
 
-.choices button small {
-  display: block;
-  max-width: 18rem;
-  margin-top: 0.12rem;
+.choice-hint {
+  margin: 0.45rem 0 0;
   color: var(--muted);
-  font-family: var(--sans);
-  font-size: 0.85rem;
-  letter-spacing: 0;
-  text-transform: none;
+  font-size: 0.95rem;
+  max-width: 36rem;
 }
 
 .choices button.on {
@@ -490,8 +535,6 @@ html[data-lang="zh"] .page-head h1 {
   border-color: var(--enamel);
   color: var(--bone);
 }
-
-.choices button.on small { color: rgba(247, 243, 234, 0.76); }
 
 fieldset { border: 0; margin: 0 0 1.15rem; padding: 0; }
 
@@ -731,6 +774,61 @@ textarea { min-height: 8rem; resize: vertical; }
 .btn-line { background: transparent; color: var(--ink); border-color: var(--ink); }
 
 .actions { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 0.3rem 0 0.8rem; }
+
+.buyer-tools {
+  margin-top: 2.4rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+
+.buyer-tools h2 {
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  margin-bottom: 1rem;
+}
+
+.tool-block {
+  margin-bottom: 1.4rem;
+  padding: 1.1rem 1.15rem;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.tool-block h3 {
+  margin: 0 0 0.55rem;
+  font-size: 1.35rem;
+}
+
+.money-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.money-grid ul,
+.open-list {
+  margin: 0.2rem 0 0;
+  padding-inline-start: 1.1rem;
+}
+
+.money-grid li + li,
+.open-list li + li {
+  margin-top: 0.35rem;
+}
+
+.share-url {
+  margin: 0.45rem 0 0;
+  padding: 0.65rem 0.75rem;
+  background: #101714;
+  color: #e8f0c8;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  word-break: break-all;
+  border-radius: 6px;
+}
+
+@media (min-width: 800px) {
+  .money-grid { grid-template-columns: 1fr 1fr; }
+}
 
 .foot {
   border-top: 1px solid var(--line);

@@ -7,7 +7,7 @@ import { downloadText, sheetText } from "../spec";
 import { useApp, useTitle } from "../state";
 import { Truck } from "../Truck";
 import type { Heat, Market, MenuId, Platform, Tone } from "../types";
-import { Band, Choice } from "../widgets";
+import { Band, BuyerTools, Choice } from "../widgets";
 
 export function Build() {
   const { lang, draft, setDraft, resetTruck } = useApp();
@@ -160,6 +160,7 @@ export function Build() {
 
             <h2>{text.build.layout}</h2>
             <Plan draft={draft} />
+            <BuyerTools draft={draft} />
           </form>
         </div>
       </section>

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { defaultDraft, sales, sanitize } from "./data";
-import type { Draft, Lang } from "./types";
+import { isLang, LANGS, type Draft, type Lang } from "./types";
 
 type State = {
   lang: Lang;
@@ -12,21 +12,66 @@ type State = {
 
 const Ctx = createContext<State | null>(null);
 
-export function AppState({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>(() => {
-    try {
-      const saved = localStorage.getItem("yuanhuo-lang");
-      if (saved === "en" || saved === "zh") return saved;
-    } catch {
-      /* storage unavailable */
-    }
-    if (typeof navigator !== "undefined" && navigator.language.toLowerCase().startsWith("zh")) return "zh";
-    return "en";
-  });
+function detectLang(): Lang {
+  try {
+    const saved = localStorage.getItem("yuanhuo-lang");
+    if (isLang(saved)) return saved;
+  } catch {
+    /* ignore */
+  }
+  const nav = typeof navigator !== "undefined" ? navigator.language.toLowerCase() : "en";
+  if (nav.startsWith("zh")) return "zh";
+  if (nav.startsWith("ar")) return "ar";
+  if (nav.startsWith("es")) return "es";
+  if (nav.startsWith("ru")) return "ru";
+  return "en";
+}
 
+function readSharedDraft(): Partial<Draft> | null {
+  try {
+    const hash = window.location.hash;
+    const qIndex = hash.indexOf("?");
+    if (qIndex < 0) return null;
+    const params = new URLSearchParams(hash.slice(qIndex + 1));
+    const raw = params.get("c");
+    if (!raw) return null;
+    const json = decodeURIComponent(escape(atob(raw.replace(/-/g, "+").replace(/_/g, "/"))));
+    return JSON.parse(json) as Partial<Draft>;
+  } catch {
+    return null;
+  }
+}
+
+export function encodeDraft(draft: Draft): string {
+  const slim: Partial<Draft> = {
+    menu: draft.menu,
+    platform: draft.platform,
+    length: draft.length,
+    market: draft.market,
+    heat: draft.heat,
+    windows: draft.windows,
+    tone: draft.tone,
+    generator: draft.generator,
+    qty: draft.qty,
+    shore: draft.shore,
+    gasOk: draft.gasOk,
+  };
+  const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(slim))));
+  return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+export function shareUrl(draft: Draft): string {
+  const base = `${window.location.origin}${window.location.pathname}#/build?c=${encodeDraft(draft)}`;
+  return base;
+}
+
+export function AppState({ children }: { children: ReactNode }) {
+  const [lang, setLang] = useState<Lang>(detectLang);
   const [draft, setDraftState] = useState<Draft>(() => {
+    const shared = typeof window !== "undefined" ? readSharedDraft() : null;
+    if (shared) return sanitize(shared);
     try {
-      const raw = sessionStorage.getItem("yuanhuo-draft-v1");
+      const raw = sessionStorage.getItem("yuanhuo-draft-v2");
       return sanitize(raw ? (JSON.parse(raw) as Partial<Draft>) : null);
     } catch {
       return sanitize(null);
@@ -34,7 +79,9 @@ export function AppState({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+    const meta = LANGS.find((item) => item.id === lang) ?? LANGS[0];
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
+    document.documentElement.dir = meta.dir;
     document.documentElement.dataset.lang = lang;
     try {
       localStorage.setItem("yuanhuo-lang", lang);
@@ -45,7 +92,7 @@ export function AppState({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      sessionStorage.setItem("yuanhuo-draft-v1", JSON.stringify(draft));
+      sessionStorage.setItem("yuanhuo-draft-v2", JSON.stringify(draft));
     } catch {
       /* ignore */
     }

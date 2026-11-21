@@ -1,16 +1,16 @@
 import { plans } from "./data";
 import { copy } from "./copy";
 import { useApp } from "./state";
-import type { Draft, L } from "./types";
+import { lx, type Draft, type L } from "./types";
 
 const legend: { kind: string; name: L }[] = [
-  { kind: "cook", name: { en: "Cook", zh: "加热" } },
-  { kind: "cold", name: { en: "Cold", zh: "冷藏" } },
-  { kind: "work", name: { en: "Work", zh: "操作" } },
-  { kind: "glass", name: { en: "Window", zh: "窗口" } },
+  { kind: "cook", name: lx("Cook", "加热", { ar: "طبخ", es: "Cocción", ru: "Готовка" }) },
+  { kind: "cold", name: lx("Cold", "冷藏", { ar: "تبريد", es: "Frío", ru: "Холод" }) },
+  { kind: "work", name: lx("Work", "操作", { ar: "عمل", es: "Trabajo", ru: "Работа" }) },
+  { kind: "glass", name: lx("Window", "窗口", { ar: "نافذة", es: "Ventana", ru: "Окно" }) },
 ];
 
-const closed: L = { en: "Closed side", zh: "封板侧" };
+const closed: L = lx("Closed side", "封板侧", { ar: "جانب مغلق", es: "Lado cerrado", ru: "Закрытая сторона" });
 
 export function Plan({ draft }: { draft: Draft }) {
   const { lang } = useApp();

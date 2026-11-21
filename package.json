@@ -11,6 +11,7 @@
   "dependencies": {
     "@fontsource/barlow-condensed": "^5.2.8",
     "@fontsource/fraunces": "^5.2.9",
+    "@fontsource/noto-sans-arabic": "^5.2.8",
     "@fontsource/source-sans-3": "^5.2.8",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",

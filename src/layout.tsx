@@ -1,21 +1,74 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { copy } from "./copy";
 import { sales } from "./data";
 import { useApp } from "./state";
+import { LANGS, type Lang } from "./types";
 
 export function Mark() {
   return (
     <svg className="mark" viewBox="0 0 32 32" aria-hidden="true">
-      <rect width="32" height="32" rx="4" fill="#e2f56b" />
-      <rect x="5" y="8" width="22" height="12" fill="#14352b" />
-      <rect x="5" y="22" width="22" height="3" fill="#14352b" />
+      <rect width="32" height="32" rx="3" fill="#dce86a" />
+      <rect x="6" y="9" width="20" height="10" fill="#0f2f27" />
+      <rect x="6" y="21" width="20" height="2.5" fill="#0f2f27" />
     </svg>
   );
 }
 
-export function Shell({ children }: { children: React.ReactNode }) {
+function LangPicker() {
   const { lang, setLang } = useApp();
+  const text = copy[lang];
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const current = LANGS.find((item) => item.id === lang) ?? LANGS[0];
+
+  useEffect(() => {
+    function onDoc(event: MouseEvent) {
+      if (!ref.current?.contains(event.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+
+  return (
+    <div className="lang-wrap" ref={ref}>
+      <button
+        type="button"
+        className="lang"
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        aria-label={text.langLabel}
+        onClick={() => setOpen((value) => !value)}
+      >
+        {current.code}
+      </button>
+      {open ? (
+        <ul className="lang-menu" role="listbox" aria-label={text.langLabel}>
+          {LANGS.map((item) => (
+            <li key={item.id}>
+              <button
+                type="button"
+                role="option"
+                aria-selected={item.id === lang}
+                className={item.id === lang ? "on" : ""}
+                onClick={() => {
+                  setLang(item.id as Lang);
+                  setOpen(false);
+                }}
+              >
+                <span>{item.code}</span>
+                <em>{item.name}</em>
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
+
+export function Shell({ children }: { children: React.ReactNode }) {
+  const { lang } = useApp();
   const text = copy[lang];
   const [open, setOpen] = useState(false);
   const location = useLocation();
@@ -34,8 +87,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <NavLink to="/" end className="brand">
           <Mark />
           <span>
-            <strong>{lang === "zh" ? sales.brandZh : sales.brandEn}</strong>
-            <small>{lang === "zh" ? sales.brandEn : sales.brandZh}</small>
+            <strong>{lang === "zh" || lang === "ar" ? sales.brandZh : sales.brandEn}</strong>
+            <small>{lang === "zh" || lang === "ar" ? sales.brandEn : sales.brandZh}</small>
           </span>
         </NavLink>
         <button
@@ -54,9 +107,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <NavLink to="/layouts">{text.nav.layouts}</NavLink>
           <NavLink to="/inquiry">{text.nav.inquiry}</NavLink>
         </nav>
-        <button type="button" className="lang" onClick={() => setLang(lang === "en" ? "zh" : "en")}>
-          {text.langSwitch}
-        </button>
+        <LangPicker />
       </header>
       <main id="content">{children}</main>
       <footer className="foot">
