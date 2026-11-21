@@ -1,6 +1,5 @@
 import { copy } from "../copy";
 import { PageHead } from "../layout";
-import { BrandBadge } from "../Mascot";
 import { useApp, useTitle } from "../state";
 
 export function Factory() {
@@ -13,10 +12,6 @@ export function Factory() {
     <>
       <PageHead kicker={page.kicker} title={page.title} lede={page.lede} />
       <section className="section">
-        <div className="wrap badge-lead" data-reveal>
-          <BrandBadge className="brand-badge-lg" />
-          <p className="fine">{page.lede}</p>
-        </div>
         <div className="wrap steps">
           {page.steps.map((step, index) => (
             <article key={step.t}>

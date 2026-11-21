@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { copy } from "./copy";
 import { sales } from "./data";
-import { BrandBadge, MascotGuide } from "./Mascot";
+import { MascotGuide } from "./Mascot";
 import { initReveals } from "./motion";
 import { useApp } from "./state";
 import { LANGS, type Lang } from "./types";
@@ -130,11 +130,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <main id="content">{children}</main>
       <footer className="foot">
         <div className="wrap foot-grid">
-          <div className="foot-brand">
-            <div className="foot-marks">
-              <Mark large />
-              <BrandBadge />
-            </div>
+          <div>
+            <Mark large />
             <p>
               {lang === "zh" ? sales.brandZh : `${sales.brandEn} ${sales.brandSubEn}`}
               <span> · {text.footerPlace}</span>
