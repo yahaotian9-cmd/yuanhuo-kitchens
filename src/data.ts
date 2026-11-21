@@ -15,6 +15,7 @@ export const sales = {
   /** Cursor Apps / portal base URL after publish. Empty = /track on same host when linked. */
   portalUrl: "",
   logoSrc: `${import.meta.env.BASE_URL}logo-taihong.png`,
+  bannerSrc: `${import.meta.env.BASE_URL}hero-banner.jpg`,
 };
 
 export const tonePaint: Record<Tone, { body: string; trim: string }> = {

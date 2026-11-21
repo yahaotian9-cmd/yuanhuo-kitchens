@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { copy } from "../copy";
-import { models, sanitize } from "../data";
+import { models, sales, sanitize } from "../data";
 import { Plan } from "../Plan";
 import { useApp, useTitle } from "../state";
 import { Truck } from "../Truck";
@@ -12,45 +12,38 @@ export function Home() {
   const { lang } = useApp();
   const text = copy[lang];
   useTitle(lang === "zh" ? "定制移动餐车" : "Custom food trucks");
+  const brandLine = lang === "zh" ? sales.brandZh : `${sales.brandEn} ${sales.brandSubEn}`;
 
   return (
     <>
-      <section className="hero">
-        <div className="wrap hero-grid">
-          <div>
-            <p className="kicker">{text.hero.kicker}</p>
-            <h1>
-              {text.hero.titleLead} <em>{text.hero.titleEm}</em> {text.hero.titleTail}
-            </h1>
-            <p className="lede">{text.hero.lede}</p>
-            <div className="actions">
-              <Link className="btn btn-lime" to="/build">
-                {text.hero.primary}
-              </Link>
-              <Link className="btn btn-ghost" to="/models">
-                {text.hero.secondary}
-              </Link>
-            </div>
-            <div className="stats">
-              {text.hero.stats.map((item) => (
-                <div key={item.l}>
-                  <b>{item.v}</b>
-                  <span>{item.l}</span>
-                </div>
-              ))}
-            </div>
+      <section className="hero-banner" aria-label={brandLine}>
+        <img className="hero-banner-media" src={sales.bannerSrc} alt="" width={1280} height={720} />
+        <div className="hero-banner-shade" aria-hidden="true" />
+        <div className="wrap hero-banner-copy">
+          <p className="hero-brand">{brandLine}</p>
+          <h1>
+            {text.hero.titleLead} <em>{text.hero.titleEm}</em> {text.hero.titleTail}
+          </h1>
+          <p className="lede">{text.hero.lede}</p>
+          <div className="actions">
+            <Link className="btn btn-lime" to="/build">
+              {text.hero.primary}
+            </Link>
+            <Link className="btn btn-ghost hero-ghost" to="/models">
+              {text.hero.secondary}
+            </Link>
           </div>
-          <figure className="hero-figure">
-            <div className="stage">
-              <Truck platform="trailer" tone="enamel" windows={1} heat="mixed" />
+        </div>
+      </section>
+
+      <section className="hero-strip">
+        <div className="wrap hero-strip-grid">
+          {text.hero.stats.map((item) => (
+            <div key={item.l}>
+              <b>{item.v}</b>
+              <span>{item.l}</span>
             </div>
-            <figcaption>{text.hero.caption}</figcaption>
-            <aside className="ticket">
-              {text.hero.ticket.map((line) => (
-                <p key={line}>{line}</p>
-              ))}
-            </aside>
-          </figure>
+          ))}
         </div>
       </section>
 
