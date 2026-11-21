@@ -1,27 +1,28 @@
 import { lx, type Draft, type EquipmentItem, type Heat, type L, type Market, type MenuId, type PlanDef, type Platform, type Tone } from "./types";
 
 /**
- * Starter brand for a custom food-truck exporter.
- * Replace `sales` before sending the site to buyers.
+ * Taihong Machinery — custom food-truck exporter.
  * Leave whatsappE164 empty until you have a real number — do not invent one.
  */
 export const sales = {
-  brandEn: "YUANHUO",
-  brandZh: "原火",
+  brandEn: "TAIHONG",
+  brandSubEn: "MACHINERY",
+  brandZh: "泰宏机械",
   email: "",
   whatsappE164: "",
   yard: lx("Weifang, Shandong, China", "中国山东潍坊") as L,
   port: lx("FOB Qingdao", "青岛港 FOB") as L,
   /** Cursor Apps / portal base URL after publish. Empty = /track on same host when linked. */
   portalUrl: "",
+  logoSrc: `${import.meta.env.BASE_URL}logo-taihong.png`,
 };
 
 export const tonePaint: Record<Tone, { body: string; trim: string }> = {
-  enamel: { body: "#1c4a38", trim: "#10281f" },
-  ink: { body: "#26231e", trim: "#14120e" },
-  bone: { body: "#e6dcc8", trim: "#c9bba4" },
-  copper: { body: "#b85a2e", trim: "#7c3a1c" },
-  tomato: { body: "#8f2e22", trim: "#5e1c16" },
+  enamel: { body: "#0b2a4a", trim: "#071c32" },
+  ink: { body: "#1a1f2a", trim: "#0d1118" },
+  bone: { body: "#eef1f5", trim: "#cfd6e0" },
+  copper: { body: "#e85d04", trim: "#b84400" },
+  tomato: { body: "#c2410c", trim: "#7c2d12" },
 };
 
 export const lengths: Record<Platform, number[]> = {
@@ -154,11 +155,11 @@ export const marketInfo: Record<Market, { name: L; power: L }> = {
 };
 
 export const toneInfo: Record<Tone, L> = {
-  enamel: lx("Enamel", "搪瓷绿"),
-  ink: lx("Ink", "墨色"),
-  bone: lx("Bone", "骨色"),
-  copper: lx("Copper", "铜棕"),
-  tomato: lx("Tomato", "番茄红"),
+  enamel: lx("Navy", "海军蓝", { ar: "كحلي", es: "Azul marina", ru: "Тёмно-синий" }),
+  ink: lx("Ink", "墨色", { ar: "حبر", es: "Tinta", ru: "Чернильный" }),
+  bone: lx("Bone", "骨色", { ar: "عاجي", es: "Hueso", ru: "Слоновая кость" }),
+  copper: lx("Orange", "品牌橙", { ar: "برتقالي", es: "Naranja", ru: "Оранжевый" }),
+  tomato: lx("Flame", "焰橙", { ar: "لهب", es: "Llama", ru: "Огненный" }),
 };
 
 export const equipment: Record<MenuId, EquipmentItem[]> = {
@@ -405,7 +406,7 @@ export const studies: Study[] = [
     story: lx("People stop because they can see the flat top. The bottles are caged on the tongue, away from the queue and away from the glass.", "人会停下来，是因为看得见铁板。气瓶关在拖杆的笼子里，远离队伍，也远离玻璃。"),
     points: [
       lx("Six metres gives the charbroiler its own bay.", "六米，烧烤炉才有自己的一格。"),
-      lx("Copper body, lime awning. The food is still the sign.", "铜棕色厢体，黄绿色雨棚。招牌仍然是菜。"),
+      lx("Orange body, navy trim. The food is still the sign.", "品牌橙厢体，海军蓝饰条。招牌仍然是菜。"),
       lx("Local gas sign-off is not part of the build.", "当地的燃气验收不包含在造车里。"),
     ],
     preset: { menu: "grill", platform: "trailer", length: 6.0, market: "gcc", heat: "lpg", windows: 1, tone: "copper", generator: false },

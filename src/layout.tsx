@@ -5,13 +5,15 @@ import { sales } from "./data";
 import { useApp } from "./state";
 import { LANGS, type Lang } from "./types";
 
-export function Mark() {
+export function Mark({ large = false }: { large?: boolean }) {
   return (
-    <svg className="mark" viewBox="0 0 32 32" aria-hidden="true">
-      <rect width="32" height="32" rx="3" fill="#dce86a" />
-      <rect x="6" y="9" width="20" height="10" fill="#0f2f27" />
-      <rect x="6" y="21" width="20" height="2.5" fill="#0f2f27" />
-    </svg>
+    <img
+      className={large ? "mark mark-lg" : "mark"}
+      src={sales.logoSrc}
+      alt=""
+      width={large ? 56 : 40}
+      height={large ? 56 : 40}
+    />
   );
 }
 
@@ -87,8 +89,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <NavLink to="/" end className="brand">
           <Mark />
           <span>
-            <strong>{lang === "zh" || lang === "ar" ? sales.brandZh : sales.brandEn}</strong>
-            <small>{lang === "zh" || lang === "ar" ? sales.brandEn : sales.brandZh}</small>
+            <strong>{lang === "zh" ? sales.brandZh : sales.brandEn}</strong>
+            <small>{lang === "zh" ? sales.brandEn : sales.brandSubEn}</small>
           </span>
         </NavLink>
         <button
@@ -116,9 +118,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <footer className="foot">
         <div className="wrap foot-grid">
           <div>
-            <Mark />
+            <Mark large />
             <p>
-              {lang === "zh" ? sales.brandZh : sales.brandEn}
+              {lang === "zh" ? sales.brandZh : `${sales.brandEn} ${sales.brandSubEn}`}
               <span> · {text.footerPlace}</span>
             </p>
           </div>

@@ -31,8 +31,8 @@ function Bottles({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) 
 function Glass({ x, y, w, h }: { x: number; y: number; w: number; h: number }) {
   return (
     <g>
-      <rect x={x} y={y} width={w} height={h} rx="2" fill="#10241c" />
-      <rect x={x + 8} y={y + h - 22} width={w - 16} height="7" fill="#c56a32" />
+      <rect x={x} y={y} width={w} height={h} rx="2" fill="#0a2340" />
+      <rect x={x + 8} y={y + h - 22} width={w - 16} height="7" fill="#e85d04" />
       <rect x={x + 6} y={y + 8} width={w * 0.35} height={h * 0.28} fill="#ffffff" opacity="0.14" />
     </g>
   );
@@ -55,7 +55,7 @@ function Windows({ x, y, w, h, count }: { x: number; y: number; w: number; h: nu
 
 export function Truck({ platform, tone, windows, heat }: Props) {
   const paint = tonePaint[tone];
-  const stripe = "#ddf06a";
+  const stripe = "#e85d04";
   const showGas = heat !== "electric";
 
   return (

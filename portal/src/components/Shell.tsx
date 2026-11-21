@@ -11,7 +11,7 @@ export function Shell({
     <>
       <header className="bar">
         <Link href="/">
-          <strong>YUANHUO Ops</strong>
+          <strong>TAIHONG Ops</strong>
         </Link>
         <nav>
           <Link href="/track">Track order</Link>

@@ -43,7 +43,7 @@ export function Build() {
               <button
                 type="button"
                 className="btn btn-line"
-                onClick={() => downloadText("yuanhuo-spec.txt", sheetText(draft, lang, text))}
+                onClick={() => downloadText("taihong-spec.txt", sheetText(draft, lang, text))}
               >
                 {text.build.download}
               </button>

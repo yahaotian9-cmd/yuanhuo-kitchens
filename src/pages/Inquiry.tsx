@@ -107,7 +107,7 @@ export function Inquiry() {
               <button type="submit" className="btn btn-ink">
                 {text.inquiry.submit}
               </button>
-              <button type="button" className="btn btn-line" onClick={() => downloadText("yuanhuo-inquiry.txt", sheet)}>
+              <button type="button" className="btn btn-line" onClick={() => downloadText("taihong-inquiry.txt", sheet)}>
                 {text.inquiry.download}
               </button>
               {mail ? (
