@@ -106,6 +106,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <NavLink to="/workshop">{text.nav.workshop}</NavLink>
           <NavLink to="/layouts">{text.nav.layouts}</NavLink>
           <NavLink to="/inquiry">{text.nav.inquiry}</NavLink>
+          <a href={sales.portalUrl ? `${sales.portalUrl.replace(/\/$/, "")}/track` : "#/inquiry"}>
+            {text.nav.track}
+          </a>
         </nav>
         <LangPicker />
       </header>

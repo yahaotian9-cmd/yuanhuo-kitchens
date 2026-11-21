@@ -8,6 +8,7 @@ const en = {
     workshop: "Workshop",
     layouts: "Layouts",
     inquiry: "Inquiry",
+    track: "Track order",
   },
   menuLabel: "Menu",
   closeMenu: "Close",
@@ -239,7 +240,7 @@ type Copy = typeof en;
 
 const zh: Copy = {
   skip: "跳到正文",
-  nav: { models: "车型", build: "配置", workshop: "工厂", layouts: "布局", inquiry: "询盘" },
+  nav: { models: "车型", build: "配置", workshop: "工厂", layouts: "布局", inquiry: "询盘", track: "查订单" },
   menuLabel: "菜单",
   closeMenu: "关闭",
   langLabel: "语言",
@@ -458,7 +459,7 @@ const zh: Copy = {
 
 const ar: Copy = {
   skip: "تخطي إلى المحتوى",
-  nav: { models: "الموديلات", build: "تهيئة", workshop: "الورشة", layouts: "المخططات", inquiry: "استفسار" },
+  nav: { models: "الموديلات", build: "تهيئة", workshop: "الورشة", layouts: "المخططات", inquiry: "استفسار", track: "تتبع الطلب" },
   menuLabel: "القائمة",
   closeMenu: "إغلاق",
   langLabel: "اللغة",
@@ -673,7 +674,7 @@ const ar: Copy = {
 
 const es: Copy = {
   skip: "Saltar al contenido",
-  nav: { models: "Modelos", build: "Configurar", workshop: "Taller", layouts: "Planos", inquiry: "Consulta" },
+  nav: { models: "Modelos", build: "Configurar", workshop: "Taller", layouts: "Planos", inquiry: "Consulta", track: "Seguir pedido" },
   menuLabel: "Menú",
   closeMenu: "Cerrar",
   langLabel: "Idioma",
@@ -888,7 +889,7 @@ const es: Copy = {
 
 const ru: Copy = {
   skip: "К содержанию",
-  nav: { models: "Модели", build: "Конфигуратор", workshop: "Цех", layouts: "Планировки", inquiry: "Запрос" },
+  nav: { models: "Модели", build: "Конфигуратор", workshop: "Цех", layouts: "Планировки", inquiry: "Запрос", track: "Статус заказа" },
   menuLabel: "Меню",
   closeMenu: "Закрыть",
   langLabel: "Язык",

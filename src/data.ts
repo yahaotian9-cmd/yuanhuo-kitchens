@@ -12,6 +12,8 @@ export const sales = {
   whatsappE164: "",
   yard: lx("Weifang, Shandong, China", "中国山东潍坊") as L,
   port: lx("FOB Qingdao", "青岛港 FOB") as L,
+  /** Cursor Apps / portal base URL after publish. Empty = /track on same host when linked. */
+  portalUrl: "",
 };
 
 export const tonePaint: Record<Tone, { body: string; trim: string }> = {
