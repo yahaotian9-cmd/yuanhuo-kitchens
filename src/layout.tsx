@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { copy } from "./copy";
 import { sales } from "./data";
+import { initReveals } from "./motion";
 import { useApp } from "./state";
 import { LANGS, type Lang } from "./types";
 
@@ -79,6 +80,17 @@ export function Shell({ children }: { children: React.ReactNode }) {
     setOpen(false);
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  useEffect(() => {
+    let stop = () => undefined as void;
+    const frame = window.requestAnimationFrame(() => {
+      stop = initReveals(document.getElementById("content") ?? document);
+    });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      stop();
+    };
+  }, [location.pathname, lang]);
 
   return (
     <>

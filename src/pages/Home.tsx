@@ -36,7 +36,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="hero-strip">
+      <section className="hero-strip" data-reveal>
         <div className="wrap hero-strip-grid">
           {text.hero.stats.map((item) => (
             <div key={item.l}>
@@ -47,7 +47,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section" data-reveal>
         <div className="wrap">
           <p className="kicker">{text.lineup.kicker}</p>
           <h2>{text.lineup.title}</h2>
@@ -82,7 +82,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section section-tight">
+      <section className="section section-tight" data-reveal>
         <div className="wrap notes">
           <div>
             <p className="kicker">{text.notes.kicker}</p>
@@ -102,7 +102,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section" data-reveal>
         <div className="wrap plan-home">
           <div>
             <p className="kicker">{text.plan.kicker}</p>
@@ -117,7 +117,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section" data-reveal>
         <div className="wrap">
           <p className="kicker">{text.ship.kicker}</p>
           <h2>{text.ship.title}</h2>
@@ -132,7 +132,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="close">
+      <section className="close" data-reveal>
         <div className="wrap">
           <h2>{text.close.title}</h2>
           <p className="lede">{text.close.lede}</p>
