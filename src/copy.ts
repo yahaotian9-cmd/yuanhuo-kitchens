@@ -234,6 +234,17 @@ const en = {
     gasNo: "Confirm electric-only cook line, or a venue that allows LPG",
     pizzaOven: "Whether we fit a named oven, or you supply it",
   },
+  mascot: {
+    label: "Taihong workshop guide",
+    dismiss: "Hide",
+    reopen: "Show guide",
+    cta: "Start an inquiry",
+    home: "Menu first, drawing second. I can walk you to Configure.",
+    build: "Pick the dishes and the country — the steel follows.",
+    inquiry: "Tell us the menu and market. We answer with a plan, then a proforma.",
+    workshop: "Yard process, docs, and what stays with you locally.",
+    default: "Send a menu. Get a drawing before the deposit.",
+  },
 };
 
 type Copy = typeof en;
@@ -455,6 +466,17 @@ const zh: Copy = {
     gasNo: "确认纯电出餐，或场地允许液化气",
     pizzaOven: "是否由我们安装指定烤箱，或你自备",
   },
+  mascot: {
+    label: "泰宏车间向导",
+    dismiss: "收起",
+    reopen: "显示向导",
+    cta: "去询盘",
+    home: "先菜单，再图纸。我可以带你去配置。",
+    build: "先选菜和国家——钢板跟着走。",
+    inquiry: "发菜单和市场。我们先回方案，再出形式发票。",
+    workshop: "车间流程、单据，以及当地你要办的部分。",
+    default: "发菜单。定金前先出图纸。",
+  },
 };
 
 const ar: Copy = {
@@ -669,6 +691,17 @@ const ar: Copy = {
     shoreNo: "كيف تشغّل بلا كهرباء موقع",
     gasNo: "تأكيد كهرباء فقط أو موقع يسمح بـ LPG",
     pizzaOven: "فرن باسم محدد منا أو منك",
+  },
+  mascot: {
+    label: "مرشد ورشة تايهونغ",
+    dismiss: "إخفاء",
+    reopen: "إظهار المرشد",
+    cta: "ابدأ استفساراً",
+    home: "القائمة أولاً ثم الرسم. أساعدك إلى التهيئة.",
+    build: "اختر الأطباق والبلد — المعدن يتبع.",
+    inquiry: "أرسل القائمة والسوق. نرد بخطة ثم فاتورة أولية.",
+    workshop: "مسار الورشة والمستندات وما يبقى محلياً لديك.",
+    default: "أرسل قائمة. الرسم قبل العربون.",
   },
 };
 
@@ -885,6 +918,17 @@ const es: Copy = {
     gasNo: "Confirmar solo eléctrico o pitch que permita LPG",
     pizzaOven: "Si montamos un horno nombrado o lo aportas tú",
   },
+  mascot: {
+    label: "Guía del taller Taihong",
+    dismiss: "Ocultar",
+    reopen: "Mostrar guía",
+    cta: "Empezar consulta",
+    home: "Primero el menú, luego el plano. Te llevo a Configurar.",
+    build: "Elige platos y país — el acero sigue.",
+    inquiry: "Cuéntanos menú y mercado. Respondemos con plan y proforma.",
+    workshop: "Proceso del patio, docs y lo que queda en tu país.",
+    default: "Envía un menú. Plano antes del depósito.",
+  },
 };
 
 const ru: Copy = {
@@ -1099,6 +1143,17 @@ const ru: Copy = {
     shoreNo: "Как питать без берегового ввода",
     gasNo: "Подтвердить только электрику или площадку с LPG",
     pizzaOven: "Ставим ли мы названную печь или привозите вы",
+  },
+  mascot: {
+    label: "Гид цеха Taihong",
+    dismiss: "Скрыть",
+    reopen: "Показать гида",
+    cta: "Начать запрос",
+    home: "Сначала меню, потом чертёж. Проведу к конфигурации.",
+    build: "Выберите блюда и страну — металл следует.",
+    inquiry: "Напишите меню и рынок. Ответим планом, затем проформой.",
+    workshop: "Процесс двора, документы и то, что остаётся у вас на месте.",
+    default: "Пришлите меню. Чертёж до депозита.",
   },
 };
 

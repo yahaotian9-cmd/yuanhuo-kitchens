@@ -16,6 +16,9 @@ export const sales = {
   portalUrl: "",
   logoSrc: `${import.meta.env.BASE_URL}logo-taihong.png`,
   bannerSrc: `${import.meta.env.BASE_URL}hero-banner.jpg`,
+  mascotSrc: `${import.meta.env.BASE_URL}ip-mascot.png`,
+  mascotSideSrc: `${import.meta.env.BASE_URL}ip-mascot-side.png`,
+  badgeSrc: `${import.meta.env.BASE_URL}badge-taihong.png`,
 };
 
 export const tonePaint: Record<Tone, { body: string; trim: string }> = {
