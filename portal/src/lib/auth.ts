@@ -44,7 +44,14 @@ export async function requireAdmin() {
   return null;
 }
 
-export function loginCookie(password: string) {
+function shouldBeSecure(request?: Request) {
+  if (!request) return process.env.NODE_ENV === "production";
+  const proto = request.headers.get("x-forwarded-proto");
+  if (proto) return proto.split(",")[0].trim() === "https";
+  return request.url.startsWith("https://");
+}
+
+export function loginCookie(password: string, request?: Request) {
   const { password: expected, session } = secrets();
   const a = Buffer.from(password);
   const b = Buffer.from(expected);
@@ -55,19 +62,19 @@ export function loginCookie(password: string) {
     value,
     httpOnly: true,
     sameSite: "lax" as const,
-    secure: process.env.NODE_ENV === "production",
+    secure: shouldBeSecure(request),
     path: "/",
     maxAge: 60 * 60 * 24 * 14,
   };
 }
 
-export function logoutCookie() {
+export function logoutCookie(request?: Request) {
   return {
     name: COOKIE,
     value: "",
     httpOnly: true,
     sameSite: "lax" as const,
-    secure: process.env.NODE_ENV === "production",
+    secure: shouldBeSecure(request),
     path: "/",
     maxAge: 0,
   };

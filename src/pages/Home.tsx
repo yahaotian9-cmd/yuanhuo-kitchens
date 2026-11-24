@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
+import { productDraft, productSummary, productTitle, useCatalog } from "../catalog";
 import { copy } from "../copy";
-import { models, sales, sanitize } from "../data";
+import { sales, sanitize } from "../data";
 import { Plan } from "../Plan";
 import { useApp, useTitle } from "../state";
 import { Truck } from "../Truck";
-import { money, estimate } from "../spec";
+import { money } from "../spec";
 
 const example = sanitize({ menu: "fried", platform: "trailer", length: 5.2, windows: 1, heat: "mixed", tone: "enamel" });
 
 export function Home() {
   const { lang } = useApp();
+  const { published } = useCatalog();
   const text = copy[lang];
   useTitle(lang === "zh" ? "定制移动餐车" : "Custom food trucks");
   const brandLine = lang === "zh" ? sales.brandZh : `${sales.brandEn} ${sales.brandSubEn}`;
@@ -53,26 +55,32 @@ export function Home() {
           <h2>{text.lineup.title}</h2>
           <p className="lede">{text.lineup.lede}</p>
           <div className="lineup">
-            {models.map((model, index) => {
-              const spec = sanitize({ ...model.preset, market: "eu", qty: 1, generator: false });
-              const band = estimate(spec);
+            {published.map((item, index) => {
+              const spec = productDraft(item);
               return (
-                <Link key={model.id} to={`/models/${model.id}`} className="model-row has-index">
+                <Link key={item.id} to={`/models/${item.id}`} className="model-row has-index">
                   <span className="idx">{String(index + 1).padStart(2, "0")}</span>
                   <span className="thumb">
-                    <Truck platform={spec.platform} tone={spec.tone} windows={spec.windows} heat={spec.heat} />
+                    {item.coverUrl ? (
+                      <img className="thumb-photo" src={item.coverUrl} alt={productTitle(item, lang)} />
+                    ) : (
+                      <Truck platform={spec.platform} tone={spec.tone} windows={spec.windows} heat={spec.heat} />
+                    )}
                   </span>
                   <span>
-                    <h3>{model.name[lang]}</h3>
-                    <p>{model.summary[lang]}</p>
+                    <h3>
+                      {productTitle(item, lang)}
+                      {item.featured ? <em className="feat-tag">{lang === "zh" ? "推荐" : "Featured"}</em> : null}
+                    </h3>
+                    <p>{productSummary(item, lang)}</p>
                   </span>
                   <span className="row-end">
                     <b>
-                      {money(band.low, lang)} – {money(band.high, lang)}
+                      {money(item.priceLow, lang)} – {money(item.priceHigh, lang)}
                     </b>
                     <small>
-                      {spec.length.toFixed(1)} m
-                      {spec.platform === "truck" ? ` · ${text.modelsPage.bodyOnly}` : ""}
+                      {item.length.toFixed(1)} m
+                      {item.platform === "truck" ? ` · ${text.modelsPage.bodyOnly}` : ""}
                     </small>
                   </span>
                 </Link>

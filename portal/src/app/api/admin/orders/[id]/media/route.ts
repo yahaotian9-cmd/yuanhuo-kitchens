@@ -12,7 +12,7 @@ export async function POST(request: Request, ctx: Ctx) {
   const body = (await request.json().catch(() => ({}))) as Record<string, unknown>;
   const kind = String(body.kind || "photo");
   const title = String(body.title || "").trim();
-  let url = String(body.url || "").trim();
+  const url = String(body.url || "").trim();
 
   if (kind === "photo") {
     if (!url.startsWith("data:image/")) {

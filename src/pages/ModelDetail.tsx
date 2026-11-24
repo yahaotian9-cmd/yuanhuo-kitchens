@@ -1,54 +1,84 @@
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { productDraft, productSummary, productTitle, useCatalog } from "../catalog";
 import { copy } from "../copy";
-import { heatInfo, kitFor, modelById, platformInfo, sanitize } from "../data";
+import { heatInfo, kitFor, platformInfo } from "../data";
 import { PageHead } from "../layout";
 import { Plan } from "../Plan";
 import { useApp, useTitle } from "../state";
-import { crewLine, estimate, money, waterLine, windowLine } from "../spec";
+import { crewLine, money, waterLine, windowLine } from "../spec";
 import { Truck } from "../Truck";
 
 export function ModelDetail() {
   const { id } = useParams();
-  const model = id ? modelById(id) : undefined;
+  const { all } = useCatalog();
+  const item = id ? all.find((p) => p.id === id || p.slug === id) : undefined;
   const { lang, setDraft } = useApp();
   const text = copy[lang];
   const navigate = useNavigate();
-  useTitle(model ? model.name[lang] : text.missing.title);
+  const [activePhoto, setActivePhoto] = useState<string>("");
 
-  if (!model) {
-    return (
-      <PageHead kicker={text.nav.models} title={text.missing.title} lede={text.missing.lede} />
-    );
+  useTitle(item ? productTitle(item, lang) : text.missing.title);
+
+  if (!item) {
+    return <PageHead kicker={text.nav.models} title={text.missing.title} lede={text.missing.lede} />;
   }
 
-  const spec = sanitize({ ...model.preset, market: "eu", qty: 1, generator: false });
-  const band = estimate(spec);
-  const ours = kitFor(spec).filter((item) => item.supply === "ours");
-  const yours = kitFor(spec).filter((item) => item.supply === "yours");
+  const spec = productDraft(item);
+  const ours = kitFor(spec).filter((row) => row.supply === "ours");
+  const yours = kitFor(spec).filter((row) => row.supply === "yours");
+  const photos = item.gallery.length > 0 ? item.gallery : item.coverUrl ? [item.coverUrl] : [];
+  const mainPhoto = activePhoto && photos.includes(activePhoto) ? activePhoto : item.coverUrl || photos[0] || "";
 
   function take(path: "/build" | "/inquiry") {
-    setDraft({ ...model!.preset, generator: false });
+    setDraft({ ...spec, generator: false });
     navigate(path);
   }
 
   return (
     <>
-      <PageHead kicker={platformInfo[spec.platform].name[lang]} title={model.name[lang]} lede={model.summary[lang]} />
+      <PageHead
+        kicker={`${platformInfo[spec.platform].name[lang]} · ${item.sku}`}
+        title={productTitle(item, lang)}
+        lede={productSummary(item, lang)}
+      />
       <section className="section">
         <div className="wrap detail">
           <figure>
             <div className="stage">
-              <Truck platform={spec.platform} tone={spec.tone} windows={spec.windows} heat={spec.heat} />
+              {mainPhoto ? (
+                <img className="stage-photo" src={mainPhoto} alt={productTitle(item, lang)} />
+              ) : (
+                <Truck platform={spec.platform} tone={spec.tone} windows={spec.windows} heat={spec.heat} />
+              )}
             </div>
+            {photos.length > 1 ? (
+              <div className="detail-thumbs">
+                {photos.map((url, idx) => (
+                  <button
+                    key={`${url.slice(0, 24)}-${idx}`}
+                    type="button"
+                    className={url === mainPhoto ? "on" : ""}
+                    onClick={() => setActivePhoto(url)}
+                  >
+                    <img src={url} alt={`Photo ${idx + 1}`} />
+                  </button>
+                ))}
+              </div>
+            ) : null}
             <figcaption>
-              {spec.length.toFixed(1)} m · {heatInfo[spec.heat][lang]} · {windowLine(spec)[lang]}
+              {item.length.toFixed(1)} × {item.width.toFixed(1)} × {item.height.toFixed(1)} m · {heatInfo[spec.heat][lang]} ·{" "}
+              {windowLine(spec)[lang]}
             </figcaption>
           </figure>
           <div className="detail-copy">
             <p className="band">
-              {money(band.low, lang)} – {money(band.high, lang)}
+              {money(item.priceLow, lang)} – {money(item.priceHigh, lang)}
             </p>
-            <p className="fine">{text.bandNote}. {text.modelsPage.lede}</p>
+            <p className="fine">
+              {text.bandNote}. MOQ {item.moq} · {item.leadDays}
+              {item.compliance.length > 0 ? ` · ${item.compliance.join(", ")}` : ""}
+            </p>
             <dl className="facts">
               <div>
                 <dt>{text.spec.crew}</dt>
@@ -60,10 +90,20 @@ export function ModelDetail() {
               </div>
               <div>
                 <dt>{text.spec.width}</dt>
-                <dd>{platformInfo[spec.platform].width[lang]}</dd>
+                <dd>{item.width.toFixed(1)} m</dd>
               </div>
             </dl>
-            <p>{platformInfo[spec.platform].note[lang]}</p>
+            <p>{item.description || platformInfo[spec.platform].note[lang]}</p>
+            {item.specs.length > 0 ? (
+              <ul className="detail-specs">
+                {item.specs.map((row, idx) => (
+                  <li key={idx}>
+                    <span>{row.k}</span>
+                    <b>{row.v}</b>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             <div className="actions">
               <button type="button" className="btn btn-ink" onClick={() => take("/build")}>
                 {text.detail.configure}
@@ -81,8 +121,8 @@ export function ModelDetail() {
           <div>
             <h2>{text.build.fitted}</h2>
             <ul>
-              {ours.map((item) => (
-                <li key={item.name.en}>{item.name[lang]}</li>
+              {ours.map((row) => (
+                <li key={row.name.en}>{row.name[lang]}</li>
               ))}
             </ul>
           </div>
@@ -90,8 +130,8 @@ export function ModelDetail() {
             <h2>{text.build.yours}</h2>
             {yours.length === 0 ? <p className="fine">—</p> : null}
             <ul>
-              {yours.map((item) => (
-                <li key={item.name.en}>{item.name[lang]}</li>
+              {yours.map((row) => (
+                <li key={row.name.en}>{row.name[lang]}</li>
               ))}
             </ul>
           </div>

@@ -1,5 +1,7 @@
-import { Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
+import { copy } from "./copy";
 import { Shell } from "./layout";
+import { Admin } from "./pages/Admin";
 import { Build } from "./pages/Build";
 import { Factory } from "./pages/Factory";
 import { Home } from "./pages/Home";
@@ -7,8 +9,7 @@ import { Inquiry } from "./pages/Inquiry";
 import { Layouts } from "./pages/Layouts";
 import { ModelDetail } from "./pages/ModelDetail";
 import { Models } from "./pages/Models";
-import { copy } from "./copy";
-import { Link } from "react-router-dom";
+import { Track } from "./pages/Track";
 import { useApp, useTitle } from "./state";
 
 function Missing() {
@@ -39,6 +40,8 @@ export function App() {
         <Route path="/workshop" element={<Factory />} />
         <Route path="/layouts" element={<Layouts />} />
         <Route path="/inquiry" element={<Inquiry />} />
+        <Route path="/track" element={<Track />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<Missing />} />
       </Routes>
     </Shell>

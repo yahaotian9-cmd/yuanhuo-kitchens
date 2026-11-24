@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { copy } from "./copy";
 import { sales } from "./data";
 import { MascotGuide } from "./Mascot";
@@ -76,6 +76,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const text = copy[lang];
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   useEffect(() => {
     setOpen(false);
@@ -121,9 +122,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <NavLink to="/workshop">{text.nav.workshop}</NavLink>
           <NavLink to="/layouts">{text.nav.layouts}</NavLink>
           <NavLink to="/inquiry">{text.nav.inquiry}</NavLink>
-          <a href={sales.portalUrl ? `${sales.portalUrl.replace(/\/$/, "")}/track` : "#/inquiry"}>
-            {text.nav.track}
-          </a>
+          {sales.portalUrl ? (
+            <a href={`${sales.portalUrl.replace(/\/$/, "")}/track`}>{text.nav.track}</a>
+          ) : (
+            <NavLink to="/track">{text.nav.track}</NavLink>
+          )}
         </nav>
         <LangPicker />
       </header>
@@ -137,10 +140,15 @@ export function Shell({ children }: { children: React.ReactNode }) {
               <span> · {text.footerPlace}</span>
             </p>
           </div>
-          <p className="fine">{text.footerNote}</p>
+          <div style={{ display: "grid", gap: "0.35rem", justifyItems: "end" }}>
+            <p className="fine" style={{ margin: 0 }}>{text.footerNote}</p>
+            <Link className="fine foot-admin-link" to="/admin">
+              {lang === "zh" ? "运营后台（上品 / 订单）→" : "Ops Admin →"}
+            </Link>
+          </div>
         </div>
       </footer>
-      <MascotGuide />
+      {!isAdminRoute ? <MascotGuide /> : null}
     </>
   );
 }

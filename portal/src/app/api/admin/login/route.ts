@@ -2,7 +2,7 @@ import { loginCookie } from "@/lib/auth";
 
 export async function POST(request: Request) {
   const body = (await request.json().catch(() => ({}))) as { password?: string };
-  const cookie = loginCookie(String(body.password || ""));
+  const cookie = loginCookie(String(body.password || ""), request);
   if (!cookie) {
     return Response.json({ error: "Wrong password." }, { status: 401 });
   }

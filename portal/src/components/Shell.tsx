@@ -11,18 +11,18 @@ export function Shell({
     <>
       <header className="bar">
         <Link href="/">
-          <strong>TAIHONG Ops</strong>
+          <strong>TAIHONG 后台</strong>
         </Link>
         <nav>
-          <Link href="/track">Track order</Link>
+          <Link href="/track">客户查单</Link>
           {admin ? (
             <>
-              <Link href="/admin">Orders</Link>
-              <Link href="/admin/products">Products</Link>
-              <Link href="/admin/logout">Log out</Link>
+              <Link href="/admin">订单管理</Link>
+              <Link href="/admin/products">商品上品</Link>
+              <a href="/admin/logout">退出</a>
             </>
           ) : (
-            <Link href="/admin">Admin</Link>
+            <Link href="/admin">进入后台</Link>
           )}
         </nav>
       </header>
